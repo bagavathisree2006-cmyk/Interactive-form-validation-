@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Form Validation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    form {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 350px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    input:focus {
+      border-color: #007BFF;
+      outline: none;
+    }
+    .error {
+      color: red;
+      font-size: 0.9em;
+    }
+    .success {
+      color: green;
+      text-align: center;
+      font-weight: bold;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <form id="regForm" onsubmit="return validateForm()">
+    <h2>Registration Form</h2>
+    
+    <label>Name:</label>
+    <input type="text" id="name">
+    <div id="nameError" class="error"></div>
+
+    <label>Email:</label>
+    <input type="text" id="email">
+    <div id="emailError" class="error"></div>
+
+    <label>Password:</label>
+    <input type="password" id="password">
+    <div id="passwordError" class="error"></div>
+
+    <label>Phone Number:</label>
+    <input type="text" id="phone">
+    <div id="phoneError" class="error"></div>
+
+    <button type="submit">Submit</button>
+    <div id="successMsg" class="success"></div>
+  </form>
+
+  <script>
+    function validateForm() {
+      let valid = true;
+
+      let name = document.getElementById("name").value;
+      let email = document.getElementById("email").value;
+      let password = document.getElementById("password").value;
+      let phone = document.getElementById("phone").value;
+
+      document.getElementById("nameError").innerText = "";
+      document.getElementById("emailError").innerText = "";
+      document.getElementById("passwordError").innerText = "";
+      document.getElementById("phoneError").innerText = "";
+      document.getElementById("successMsg").innerText = "";
+
+      let namePattern = /^[A-Za-z ]+$/;
+      let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+      let passPattern = /^(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$/;
+      let phonePattern = /^[0-9]{10}$/;
+
+      if (!name.match(namePattern)) {
+        document.getElementById("nameError").innerText = "Enter a valid name.";
+        valid = false;
+      }
+
+      if (!email.match(emailPattern)) {
+        document.getElementById("emailError").innerText = "Enter a valid email.";
+        valid = false;
+      }
+
+      if (!password.match(passPattern)) {
+        document.getElementById("passwordError").innerText = 
+          "Password must be at least 8 chars with 1 number & 1 special char.";
+        valid = false;
+      }
+
+      if (!phone.match(phonePattern)) {
+        document.getElementById("phoneError").innerText = "Phone must be 10 digits.";
+        valid = false;
+      }
+
+      if (valid) {
+        document.getElementById("successMsg").innerText = "Form submitted successfully!";
+      }
+
+      return false; // prevent form from reloading
+    }
+  </script>
+</body>
+</html>
